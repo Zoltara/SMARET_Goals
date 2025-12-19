@@ -80,7 +80,7 @@ export function GoalInput({ onGoalAdded }) {
       {step === 1 && (
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
               What is your goal? (Specific)
             </label>
             <input
@@ -88,12 +88,12 @@ export function GoalInput({ onGoalAdded }) {
               value={goal.title}
               onChange={(e) => handleInputChange('title', e.target.value)}
               placeholder="e.g., Run a marathon, Learn Spanish, Start a business"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white text-gray-900 placeholder-gray-400 dark:bg-slate-800 dark:border-slate-600 dark:text-slate-50 dark:placeholder-slate-400"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
               How will you measure success? (Measurable)
             </label>
             <input
@@ -101,12 +101,12 @@ export function GoalInput({ onGoalAdded }) {
               value={goal.measurement}
               onChange={(e) => handleInputChange('measurement', e.target.value)}
               placeholder="e.g., Complete 26.2 miles, Have 30-min conversation, Generate $10k/month"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white text-gray-900 placeholder-gray-400 dark:bg-slate-800 dark:border-slate-600 dark:text-slate-50 dark:placeholder-slate-400"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
               Is this achievable? What do you need? (Achievable)
             </label>
             <textarea
@@ -114,12 +114,12 @@ export function GoalInput({ onGoalAdded }) {
               onChange={(e) => handleInputChange('achievable', e.target.value)}
               placeholder="e.g., I have time to train 3x/week, I can afford the course, I have the skills"
               rows="3"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white text-gray-900 placeholder-gray-400 dark:bg-slate-800 dark:border-slate-600 dark:text-slate-50 dark:placeholder-slate-400"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
               Why is this important to you? (Relevant)
             </label>
             <textarea
@@ -127,12 +127,12 @@ export function GoalInput({ onGoalAdded }) {
               onChange={(e) => handleInputChange('relevant', e.target.value)}
               placeholder="e.g., This aligns with my values, It will improve my life, It's my dream"
               rows="3"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white text-gray-900 placeholder-gray-400 dark:bg-slate-800 dark:border-slate-600 dark:text-slate-50 dark:placeholder-slate-400"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
               When do you want to achieve this? (Time-bound)
             </label>
             <input
@@ -140,7 +140,7 @@ export function GoalInput({ onGoalAdded }) {
               value={goal.targetDate}
               onChange={(e) => handleInputChange('targetDate', e.target.value)}
               min={new Date().toISOString().split('T')[0]}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white text-gray-900 dark:bg-slate-800 dark:border-slate-600 dark:text-slate-50"
             />
           </div>
 
@@ -183,7 +183,7 @@ export function GoalInput({ onGoalAdded }) {
 
           {missingCriteria.map((item, index) => (
             <div key={index}>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                 {item.criterion.charAt(0).toUpperCase() + item.criterion.slice(1)}: {item.question}
               </label>
               {item.criterion === 'timeBound' ? (
@@ -192,7 +192,7 @@ export function GoalInput({ onGoalAdded }) {
                   value={goal.targetDate}
                   onChange={(e) => handleInputChange('targetDate', e.target.value)}
                   min={new Date().toISOString().split('T')[0]}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white text-gray-900 dark:bg-slate-800 dark:border-slate-600 dark:text-slate-50"
                 />
               ) : (
                 <textarea
@@ -200,7 +200,7 @@ export function GoalInput({ onGoalAdded }) {
                   onChange={(e) => handleInputChange(item.criterion, e.target.value)}
                   placeholder={item.question}
                   rows="3"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white text-gray-900 placeholder-gray-400 dark:bg-slate-800 dark:border-slate-600 dark:text-slate-50 dark:placeholder-slate-400"
                 />
               )}
             </div>
