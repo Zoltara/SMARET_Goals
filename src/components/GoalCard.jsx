@@ -31,6 +31,9 @@ export function GoalCard({ goal, onUpdate, onDelete }) {
     updatedGoal.completedActions = allActions.filter(a => a.completed).length
     updatedGoal.lastActionDate = new Date().toISOString()
     
+    // Recalculate and save progress
+    updatedGoal.progress = calculateProgress(updatedGoal, updatedGoal.breakdown, updatedGoal.completedActions)
+    
     onUpdate(updatedGoal)
   }
 

@@ -1,15 +1,43 @@
 import { useState } from 'react'
-import { Calendar, Flame, CheckCircle2, Circle, TrendingUp } from 'lucide-react'
+import { Calendar, Flame, CheckCircle2, Circle, TrendingUp, Edit2, Save, X } from 'lucide-react'
 import { updateHabitStreak, getHabitScore, checkHabitCompletion } from '../utils/habits'
 import { format, isToday, parseISO } from 'date-fns'
 
 export function HabitTracker({ habits, goals, onHabitUpdate }) {
   const [selectedDate, setSelectedDate] = useState(new Date())
+  const [editingHabitId, setEditingHabitId] = useState(null)
+  const [editForm, setEditForm] = useState({ cue: '', response: '', reward: '' })
 
   const handleHabitToggle = (habit) => {
     const completed = !checkHabitCompletion(habit)
     const updatedHabit = updateHabitStreak(habit, completed)
     onHabitUpdate(updatedHabit)
+  }
+
+  const handleStartEdit = (habit) => {
+    setEditingHabitId(habit.id)
+    setEditForm({
+      cue: habit.cue || '',
+      response: habit.response || '',
+      reward: habit.reward || ''
+    })
+  }
+
+  const handleCancelEdit = () => {
+    setEditingHabitId(null)
+    setEditForm({ cue: '', response: '', reward: '' })
+  }
+
+  const handleSaveEdit = (habit) => {
+    const updatedHabit = {
+      ...habit,
+      cue: editForm.cue.trim() || habit.cue,
+      response: editForm.response.trim() || habit.response,
+      reward: editForm.reward.trim() || habit.reward
+    }
+    onHabitUpdate(updatedHabit)
+    setEditingHabitId(null)
+    setEditForm({ cue: '', response: '', reward: '' })
   }
 
   const getGoalName = (goalId) => {
@@ -83,18 +111,78 @@ export function HabitTracker({ habits, goals, onHabitUpdate }) {
                   
                   {/* Habit Stack */}
                   <div className="space-y-2 mt-3">
-                    <div className="text-xs">
-                      <span className="font-semibold text-gray-700 dark:text-gray-200">Cue:</span>
-                      <span className="text-gray-600 dark:text-gray-300 ml-2">{habit.cue}</span>
-                    </div>
-                    <div className="text-xs">
-                      <span className="font-semibold text-gray-700 dark:text-gray-200">Response:</span>
-                      <span className="text-gray-600 dark:text-gray-300 ml-2">{habit.response}</span>
-                    </div>
-                    <div className="text-xs">
-                      <span className="font-semibold text-gray-700 dark:text-gray-200">Reward:</span>
-                      <span className="text-gray-600 dark:text-gray-300 ml-2">{habit.reward}</span>
-                    </div>
+                    {editingHabitId === habit.id ? (
+                      <div className="space-y-3">
+                        <div>
+                          <label className="block text-xs font-semibold text-gray-700 dark:text-gray-200 mb-1">Cue:</label>
+                          <input
+                            type="text"
+                            value={editForm.cue}
+                            onChange={(e) => setEditForm({ ...editForm, cue: e.target.value })}
+                            className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                            placeholder="e.g., After I wake up..."
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-semibold text-gray-700 dark:text-gray-200 mb-1">Response:</label>
+                          <input
+                            type="text"
+                            value={editForm.response}
+                            onChange={(e) => setEditForm({ ...editForm, response: e.target.value })}
+                            className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                            placeholder="e.g., I will work on my goal for 15 minutes"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-semibold text-gray-700 dark:text-gray-200 mb-1">Reward:</label>
+                          <input
+                            type="text"
+                            value={editForm.reward}
+                            onChange={(e) => setEditForm({ ...editForm, reward: e.target.value })}
+                            className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                            placeholder="e.g., Track progress and celebrate"
+                          />
+                        </div>
+                        <div className="flex space-x-2 pt-2">
+                          <button
+                            onClick={() => handleSaveEdit(habit)}
+                            className="flex-1 px-3 py-1.5 bg-primary-600 text-white text-xs font-semibold rounded-lg hover:bg-primary-700 transition-colors flex items-center justify-center space-x-1"
+                          >
+                            <Save className="w-3 h-3" />
+                            <span>Save</span>
+                          </button>
+                          <button
+                            onClick={handleCancelEdit}
+                            className="px-3 py-1.5 border border-gray-300 dark:border-slate-600 text-gray-700 dark:text-gray-200 text-xs font-semibold rounded-lg hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors flex items-center justify-center space-x-1"
+                          >
+                            <X className="w-3 h-3" />
+                            <span>Cancel</span>
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="text-xs">
+                          <span className="font-semibold text-gray-700 dark:text-gray-200">Cue:</span>
+                          <span className="text-gray-600 dark:text-gray-300 ml-2">{habit.cue}</span>
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-semibold text-gray-700 dark:text-gray-200">Response:</span>
+                          <span className="text-gray-600 dark:text-gray-300 ml-2">{habit.response}</span>
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-semibold text-gray-700 dark:text-gray-200">Reward:</span>
+                          <span className="text-gray-600 dark:text-gray-300 ml-2">{habit.reward}</span>
+                        </div>
+                        <button
+                          onClick={() => handleStartEdit(habit)}
+                          className="mt-2 px-3 py-1.5 text-xs font-medium text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-lg transition-colors flex items-center space-x-1"
+                        >
+                          <Edit2 className="w-3 h-3" />
+                          <span>Edit Habit</span>
+                        </button>
+                      </>
+                    )}
                   </div>
                 </div>
 

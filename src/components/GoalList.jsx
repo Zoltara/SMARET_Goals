@@ -33,11 +33,11 @@ export function GoalList({ goals, onGoalUpdate, onGoalDelete }) {
           <select
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
-            className="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500"
+            className="px-3 py-1 border border-gray-300 dark:border-slate-600 rounded-lg text-sm bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           >
-            <option value="all">All Goals</option>
-            <option value="active">Active</option>
-            <option value="completed">Completed</option>
+            <option value="all" className="bg-white dark:bg-slate-700 text-gray-900 dark:text-white">All Goals</option>
+            <option value="active" className="bg-white dark:bg-slate-700 text-gray-900 dark:text-white">Active</option>
+            <option value="completed" className="bg-white dark:bg-slate-700 text-gray-900 dark:text-white">Completed</option>
           </select>
         </div>
       </div>

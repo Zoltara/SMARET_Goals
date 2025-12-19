@@ -4,6 +4,19 @@ import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, R
 import { calculateProgress, calculateTimeProgress, getProgressFeedback, getRewards } from '../utils/progress'
 import { format } from 'date-fns'
 
+// Safe progress calculation helper
+const getGoalProgress = (goal) => {
+  try {
+    if (goal.progress !== undefined && goal.progress !== null) {
+      return goal.progress
+    }
+    return calculateProgress(goal, goal.breakdown, goal.completedActions) || 0
+  } catch (error) {
+    console.error('Error calculating progress:', error)
+    return 0
+  }
+}
+
 export function ProgressDashboard({ goals }) {
   const stats = useMemo(() => {
     if (goals.length === 0) {
@@ -16,9 +29,15 @@ export function ProgressDashboard({ goals }) {
       }
     }
 
-    const completedGoals = goals.filter(g => g.progress >= 100).length
-    const totalProgress = goals.reduce((sum, g) => sum + (g.progress || 0), 0)
-    const averageProgress = Math.round(totalProgress / goals.length)
+    // Calculate progress for each goal if not set
+    const goalsWithProgress = goals.map(g => ({
+      ...g,
+      progress: getGoalProgress(g)
+    }))
+    
+    const completedGoals = goalsWithProgress.filter(g => g.progress >= 100).length
+    const totalProgress = goalsWithProgress.reduce((sum, g) => sum + g.progress, 0)
+    const averageProgress = goals.length > 0 ? Math.round(totalProgress / goals.length) : 0
     
     const allActions = goals.reduce((sum, g) => {
       const breakdown = g.breakdown || {}
@@ -43,11 +62,16 @@ export function ProgressDashboard({ goals }) {
   }, [goals])
 
   const chartData = useMemo(() => {
-    return goals.map(goal => ({
-      name: goal.title.length > 15 ? goal.title.substring(0, 15) + '...' : goal.title,
-      progress: goal.progress || 0,
-      timeProgress: calculateTimeProgress(goal)
-    }))
+    try {
+      return goals.map(goal => ({
+        name: goal.title && goal.title.length > 15 ? goal.title.substring(0, 15) + '...' : (goal.title || 'Untitled'),
+        progress: getGoalProgress(goal),
+        timeProgress: calculateTimeProgress(goal)
+      }))
+    } catch (error) {
+      console.error('Error creating chart data:', error)
+      return []
+    }
   }, [goals])
 
   const pieData = useMemo(() => {
@@ -150,7 +174,7 @@ export function ProgressDashboard({ goals }) {
         <h3 className="text-lg font-bold text-gray-800 mb-4">Detailed Progress</h3>
         <div className="space-y-4">
           {goals.map(goal => {
-            const progress = goal.progress || 0
+            const progress = getGoalProgress(goal)
             const timeProgress = calculateTimeProgress(goal)
             const feedback = getProgressFeedback(progress, timeProgress)
             const rewards = getRewards(progress)

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Sparkles, Image as ImageIcon, Download, Wand2, Loader2, AlertCircle } from 'lucide-react'
+import { calculateProgress } from '../utils/progress'
 
 export function VisionBoard({ goals }) {
   const [visionImages, setVisionImages] = useState([])
@@ -176,6 +177,22 @@ export function VisionBoard({ goals }) {
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {visionImages.map((vision) => {
             const goal = goals.find(g => g.id === vision.goalId)
+            
+            // Calculate progress using the same function as GoalCard
+            const getGoalProgress = () => {
+              if (!goal) return 0
+              
+              // If progress is already set (including 0), use it
+              if (goal.progress !== undefined && goal.progress !== null) {
+                return goal.progress
+              }
+              
+              // Otherwise calculate it from breakdown
+              const calculated = calculateProgress(goal, goal.breakdown, goal.completedActions)
+              return calculated !== undefined && calculated !== null ? calculated : 0
+            }
+            const currentProgress = getGoalProgress()
+            
             return (
               <div
                 key={vision.id}
@@ -192,10 +209,10 @@ export function VisionBoard({ goals }) {
                       <div className="w-full bg-white/20 rounded-full h-1.5 mb-1">
                         <div
                           className="bg-white rounded-full h-1.5 transition-all"
-                          style={{ width: `${goal.progress || 0}%` }}
+                          style={{ width: `${currentProgress}%` }}
                         />
                       </div>
-                      <span>{goal.progress || 0}% Complete</span>
+                      <span>{currentProgress}% Complete</span>
                     </div>
                   )}
                 </div>
