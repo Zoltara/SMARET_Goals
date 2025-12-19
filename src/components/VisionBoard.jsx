@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react'
-import { Sparkles, Image as ImageIcon, Download } from 'lucide-react'
+import { Sparkles, Image as ImageIcon, Download, Wand2, Loader2, AlertCircle } from 'lucide-react'
 
 export function VisionBoard({ goals }) {
   const [visionImages, setVisionImages] = useState([])
+  const [aiProvider, setAiProvider] = useState('openai')
+  const [isGenerating, setIsGenerating] = useState(false)
+  const [generatedImageUrl, setGeneratedImageUrl] = useState(null)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     // Generate vision board images based on goals
@@ -24,6 +28,41 @@ export function VisionBoard({ goals }) {
       emoji: getEmojiForGoal(goal.title)
     }))
     setVisionImages(images)
+  }
+
+  const handleGenerateAiImage = async () => {
+    if (!goals.length) return
+    setIsGenerating(true)
+    setError(null)
+
+    try {
+      // This calls a backend route you can implement on Vercel (e.g., /api/generate-vision)
+      // The backend should talk to OpenAI (ChatGPT Images) or Google Gemini,
+      // using your secret API keys stored in environment variables.
+      const response = await fetch('/api/generate-vision', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          provider: aiProvider,
+          goals: goals.map(g => ({
+            title: g.title,
+            measurement: g.measurement,
+            relevant: g.relevant
+          })),
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to generate image. Make sure the /api/generate-vision route is implemented.')
+      }
+
+      const data = await response.json()
+      setGeneratedImageUrl(data.imageUrl)
+    } catch (err) {
+      setError(err.message || 'Something went wrong while generating the image.')
+    } finally {
+      setIsGenerating(false)
+    }
   }
 
   const getColorForIndex = (index) => {
@@ -72,13 +111,64 @@ export function VisionBoard({ goals }) {
         <div className="flex items-center justify-between mb-4">
           <div>
             <h2 className="text-2xl font-bold gradient-text mb-2">Your Vision Board</h2>
-            <p className="text-gray-600">Visualize your dreams and stay motivated</p>
+            <p className="text-gray-600 dark:text-gray-300">Visualize your dreams and stay motivated</p>
           </div>
-          <button className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors flex items-center space-x-2">
-            <Download className="w-4 h-4" />
-            <span>Save</span>
-          </button>
+          <div className="flex flex-col sm:flex-row gap-2 sm:items-center">
+            <div className="flex items-center space-x-2">
+              <label className="text-xs font-medium text-gray-600 dark:text-gray-300">AI Provider:</label>
+              <select
+                value={aiProvider}
+                onChange={(e) => setAiProvider(e.target.value)}
+                className="text-xs px-2 py-1 border border-gray-300 dark:border-slate-600 rounded-md bg-white/80 dark:bg-slate-900/80 text-gray-700 dark:text-gray-100"
+              >
+                <option value="openai">OpenAI (ChatGPT Images)</option>
+                <option value="gemini">Google Gemini</option>
+              </select>
+            </div>
+            <button
+              onClick={handleGenerateAiImage}
+              disabled={isGenerating || !goals.length}
+              className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-60 disabled:cursor-not-allowed transition-colors flex items-center space-x-2 text-sm"
+            >
+              {isGenerating ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span>Generating...</span>
+                </>
+              ) : (
+                <>
+                  <Wand2 className="w-4 h-4" />
+                  <span>AI Vision Image</span>
+                </>
+              )}
+            </button>
+            <button className="px-4 py-2 bg-primary-100 text-primary-800 dark:bg-slate-800 dark:text-slate-100 rounded-lg hover:bg-primary-200 dark:hover:bg-slate-700 transition-colors flex items-center space-x-2 text-sm">
+              <Download className="w-4 h-4" />
+              <span>Save Board</span>
+            </button>
+          </div>
         </div>
+
+        {error && (
+          <div className="mb-4 flex items-start space-x-2 rounded-lg border border-red-300 bg-red-50 px-3 py-2 text-xs text-red-800 dark:border-red-700 dark:bg-red-900/30">
+            <AlertCircle className="w-4 h-4 mt-0.5" />
+            <p>
+              {error}{' '}
+              <span className="font-semibold">
+                You need to implement the <code className="font-mono">/api/generate-vision</code> route on Vercel using your OpenAI or Gemini API key.
+              </span>
+            </p>
+          </div>
+        )}
+
+        {generatedImageUrl && (
+          <div className="mb-6">
+            <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-100 mb-2">AI-Generated Vision Image</h3>
+            <div className="rounded-xl overflow-hidden border border-gray-200 dark:border-slate-700 shadow-md">
+              <img src={generatedImageUrl} alt="AI generated vision" className="w-full h-auto object-cover" />
+            </div>
+          </div>
+        )}
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {visionImages.map((vision) => {
@@ -122,7 +212,7 @@ export function VisionBoard({ goals }) {
       {/* Inspiration Section */}
       <div className="glass-effect p-6 rounded-2xl">
         <h3 className="text-xl font-bold text-gray-800 mb-4">Vision Board Tips</h3>
-        <ul className="space-y-2 text-gray-700">
+        <ul className="space-y-2 text-gray-700 dark:text-gray-200">
           <li className="flex items-start space-x-2">
             <span className="text-primary-600">✓</span>
             <span>Review your vision board every morning</span>

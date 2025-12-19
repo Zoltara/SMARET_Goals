@@ -5,11 +5,16 @@ import { differenceInDays } from 'date-fns';
 export function calculateProgress(goal, breakdown, completedActions) {
   if (!breakdown) return 0;
   
+  const daily = breakdown.daily || [];
+  const weekly = breakdown.weekly || [];
+  const monthly = breakdown.monthly || [];
+  const yearly = breakdown.yearly || [];
+
   const totalActions = [
-    ...breakdown.daily,
-    ...breakdown.weekly,
-    ...breakdown.monthly,
-    ...breakdown.yearly
+    ...daily,
+    ...weekly,
+    ...monthly,
+    ...yearly
   ].length;
   
   const completed = completedActions || 0;
