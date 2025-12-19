@@ -52,7 +52,7 @@ export function MotivationPanel() {
             </div>
             <button
               onClick={() => setShowStory(!showStory)}
-              className="text-sm text-primary-600 hover:text-primary-700 font-medium"
+                className="text-sm text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-medium"
             >
               {showStory ? 'Hide' : 'Read Story'}
             </button>
@@ -62,8 +62,8 @@ export function MotivationPanel() {
             <div className="space-y-3">
               <h4 className="font-semibold text-gray-800 dark:text-gray-100 text-lg">{story.title}</h4>
               <p className="text-gray-700 dark:text-gray-200 leading-relaxed">{story.content}</p>
-              <div className="p-3 bg-primary-50 rounded-lg border-l-4 border-primary-500">
-                <p className="text-sm font-semibold text-primary-800">
+              <div className="p-3 bg-primary-50 dark:bg-primary-900/30 rounded-lg border-l-4 border-primary-500 dark:border-primary-400">
+                <p className="text-sm font-semibold text-primary-800 dark:text-primary-200">
                   💡 Lesson: {story.lesson}
                 </p>
               </div>

@@ -112,39 +112,174 @@ export function breakDownGoal(goal) {
 }
 
 function generateDailyAction(goal, dayIndex, totalDays) {
-  const progress = (dayIndex / totalDays) * 100;
-  const actions = [
-    `Take one small step toward "${goal.title}"`,
-    `Spend 15 minutes working on your goal`,
-    `Review your progress and adjust if needed`,
-    `Connect with someone who can help you achieve this goal`,
-    `Learn something new related to your goal`,
-    `Track your progress for today`,
-    `Celebrate small wins and stay motivated`
-  ];
+  const title = goal.title.toLowerCase();
+  const measurement = goal.measurement.toLowerCase();
   
-  if (progress < 10) {
-    return `Start: ${actions[0]}`;
+  // Extract numbers from goal
+  const extractNumbers = (text) => {
+    const matches = text.match(/\d+(\.\d+)?/g);
+    return matches ? matches.map(Number) : [];
+  };
+  
+  const titleNumbers = extractNumbers(goal.title);
+  const measurementNumbers = extractNumbers(goal.measurement);
+  const allNumbers = [...titleNumbers, ...measurementNumbers];
+  
+  // Reading books
+  if (title.includes('read') || title.includes('book') || measurement.includes('page')) {
+    const pages = allNumbers.find(n => n >= 10 && n <= 1000) || 300;
+    const pagesPerDay = Math.ceil(pages / totalDays);
+    const startPages = Math.max(1, Math.floor(pagesPerDay * 0.3));
+    const currentPages = Math.min(pages, startPages + (dayIndex * Math.ceil(pagesPerDay / 7)));
+    
+    if (dayIndex === 0) {
+      return `Read 1 page of your book`;
+    } else if (dayIndex < 3) {
+      return `Read ${Math.min(currentPages, 5)} pages today`;
+    } else if (dayIndex < 7) {
+      return `Read ${Math.min(currentPages, 10)} pages today`;
+    } else {
+      return `Read ${Math.min(currentPages, pagesPerDay)} pages today`;
+    }
+  }
+  
+  // Running/Fitness goals
+  if (title.includes('run') || title.includes('marathon') || title.includes('km') || measurement.includes('km') || measurement.includes('minute')) {
+    const kmMatch = measurement.match(/(\d+(\.\d+)?)\s*km/);
+    const timeMatch = measurement.match(/(\d+)\s*min/);
+    const targetKm = kmMatch ? parseFloat(kmMatch[1]) : (allNumbers.find(n => n >= 1 && n <= 50) || 5);
+    const targetTime = timeMatch ? parseInt(timeMatch[1]) : null;
+    
+    if (dayIndex === 0) {
+      return `Walk/run for 10 minutes to build endurance`;
+    } else if (dayIndex === 1) {
+      return `Run/walk for 20 minutes`;
+    } else if (dayIndex === 2) {
+      return `Run 1 km at comfortable pace`;
+    } else if (dayIndex === 3) {
+      return `Run 2 km`;
+    } else if (dayIndex < 7) {
+      const km = Math.min(targetKm * 0.4, 2 + (dayIndex - 3));
+      return `Run ${km.toFixed(1)} km`;
+    } else {
+      const progress = dayIndex / totalDays;
+      const km = Math.min(targetKm * progress, targetKm);
+      return `Run ${km.toFixed(1)} km${targetTime ? ` (aim for ${targetTime} min)` : ''}`;
+    }
+  }
+  
+  // Learning/Language goals
+  if (title.includes('learn') || title.includes('language') || title.includes('study') || measurement.includes('conversation') || measurement.includes('fluent')) {
+    if (dayIndex === 0) {
+      return `Spend 10 minutes learning 5 new words/phrases`;
+    } else if (dayIndex < 3) {
+      return `Practice for 15 minutes: review yesterday's words + learn 5 new ones`;
+    } else if (dayIndex < 7) {
+      return `Practice for 20 minutes: vocabulary + basic conversation practice`;
+    } else {
+      return `Practice for 30 minutes: conversation, grammar, and vocabulary`;
+    }
+  }
+  
+  // Weight/Fitness goals
+  if (title.includes('lose') || title.includes('weight') || title.includes('pound') || measurement.includes('pound') || measurement.includes('kg')) {
+    const weight = allNumbers.find(n => n >= 5 && n <= 200) || 20;
+    if (dayIndex === 0) {
+      return `Start: Track your current weight and plan your meals`;
+    } else if (dayIndex < 3) {
+      return `Do 15 minutes of exercise + eat healthy meals`;
+    } else if (dayIndex < 7) {
+      return `Do 30 minutes of exercise + maintain calorie deficit`;
+    } else {
+      return `Do 45 minutes of exercise + follow your nutrition plan`;
+    }
+  }
+  
+  // Business/Financial goals
+  if (title.includes('business') || title.includes('start') || title.includes('entrepreneur') || title.includes('save') || title.includes('money') || measurement.includes('$') || measurement.includes('revenue')) {
+    const amount = allNumbers.find(n => n >= 100) || 10000;
+    if (dayIndex === 0) {
+      return `Research and plan: Spend 30 minutes researching your business idea`;
+    } else if (dayIndex < 3) {
+      return `Take action: Work on your business for 1 hour today`;
+    } else if (dayIndex < 7) {
+      return `Build momentum: Work on your business for 2 hours today`;
+    } else {
+      return `Scale up: Work on your business for 3+ hours today`;
+    }
+  }
+  
+  // Generic progressive action
+  const progress = (dayIndex / totalDays) * 100;
+  if (dayIndex === 0) {
+    return `Start: Take the first small step toward "${goal.title}" (5 minutes)`;
+  } else if (dayIndex < 3) {
+    return `Build habit: Spend 15 minutes working on "${goal.title}"`;
+  } else if (dayIndex < 7) {
+    return `Increase intensity: Spend 30 minutes working on "${goal.title}"`;
   } else if (progress < 50) {
-    return `Build momentum: ${actions[1]}`;
+    return `Maintain momentum: Spend 45 minutes working on "${goal.title}"`;
   } else if (progress < 80) {
-    return `Maintain consistency: ${actions[2]}`;
+    return `Accelerate: Spend 1 hour working on "${goal.title}"`;
   } else {
-    return `Final push: ${actions[3]}`;
+    return `Final push: Spend 1.5+ hours working on "${goal.title}"`;
   }
 }
 
 function generateWeeklyMilestone(goal, weekIndex, totalWeeks) {
-  const progress = (weekIndex / totalWeeks) * 100;
+  const title = goal.title.toLowerCase();
+  const measurement = goal.measurement.toLowerCase();
+  const extractNumbers = (text) => {
+    const matches = text.match(/\d+(\.\d+)?/g);
+    return matches ? matches.map(Number) : [];
+  };
+  const allNumbers = [...extractNumbers(goal.title), ...extractNumbers(goal.measurement)];
   
+  // Reading books
+  if (title.includes('read') || title.includes('book') || measurement.includes('page')) {
+    const pages = allNumbers.find(n => n >= 10 && n <= 1000) || 300;
+    const targetPages = Math.ceil((pages / totalWeeks) * weekIndex);
+    return `Week ${weekIndex}: Read ${targetPages} pages total (${Math.ceil(targetPages / 7)} pages/day average)`;
+  }
+  
+  // Running goals
+  if (title.includes('run') || title.includes('marathon') || measurement.includes('km')) {
+    const kmMatch = measurement.match(/(\d+(\.\d+)?)\s*km/);
+    const targetKm = kmMatch ? parseFloat(kmMatch[1]) : (allNumbers.find(n => n >= 1 && n <= 50) || 5);
+    const weeklyKm = Math.min(targetKm * (weekIndex / totalWeeks), targetKm);
+    return `Week ${weekIndex}: Run ${weeklyKm.toFixed(1)} km total (aim for ${(targetKm / totalWeeks).toFixed(1)} km this week)`;
+  }
+  
+  // Learning goals
+  if (title.includes('learn') || title.includes('language')) {
+    const wordsLearned = weekIndex * 50;
+    return `Week ${weekIndex}: Learn ${wordsLearned} words total, practice daily conversations`;
+  }
+  
+  // Weight loss
+  if (title.includes('lose') || title.includes('weight') || measurement.includes('pound') || measurement.includes('kg')) {
+    const weight = allNumbers.find(n => n >= 5 && n <= 200) || 20;
+    const weeklyLoss = (weight / totalWeeks) * weekIndex;
+    return `Week ${weekIndex}: Target ${weeklyLoss.toFixed(1)} lbs lost (${(weight / totalWeeks).toFixed(1)} lbs this week)`;
+  }
+  
+  // Business/Financial
+  if (title.includes('business') || title.includes('save') || measurement.includes('$')) {
+    const amount = allNumbers.find(n => n >= 100) || 10000;
+    const weeklyAmount = Math.ceil((amount / totalWeeks) * weekIndex);
+    return `Week ${weekIndex}: Reach $${weeklyAmount.toLocaleString()} (${Math.ceil(amount / totalWeeks).toLocaleString()} this week)`;
+  }
+  
+  // Generic
+  const progress = (weekIndex / totalWeeks) * 100;
   if (progress < 25) {
-    return `Establish foundation for "${goal.title}"`;
+    return `Week ${weekIndex}: Establish foundation and daily routine for "${goal.title}"`;
   } else if (progress < 50) {
-    return `Build consistent routine toward your goal`;
+    return `Week ${weekIndex}: Build consistent progress toward "${goal.title}"`;
   } else if (progress < 75) {
-    return `Accelerate progress and overcome obstacles`;
+    return `Week ${weekIndex}: Accelerate progress and overcome obstacles`;
   } else {
-    return `Finalize and celebrate achievement of "${goal.title}"`;
+    return `Week ${weekIndex}: Finalize and achieve "${goal.title}"`;
   }
 }
 

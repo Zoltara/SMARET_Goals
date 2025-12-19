@@ -118,11 +118,14 @@ export function VisionBoard({ goals }) {
               <label className="text-xs font-medium text-gray-600 dark:text-gray-300">AI Provider:</label>
               <select
                 value={aiProvider}
-                onChange={(e) => setAiProvider(e.target.value)}
-                className="text-xs px-2 py-1 border border-gray-300 dark:border-slate-600 rounded-md bg-white/80 dark:bg-slate-900/80 text-gray-700 dark:text-gray-100"
+                onChange={(e) => {
+                  setAiProvider(e.target.value)
+                  setError(null) // Clear error when changing provider
+                }}
+                className="text-xs px-2 py-1 border border-gray-300 dark:border-slate-600 rounded-md bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
               >
-                <option value="openai">OpenAI (ChatGPT Images)</option>
-                <option value="gemini">Google Gemini</option>
+                <option value="openai" className="bg-white dark:bg-slate-700 text-gray-900 dark:text-white">OpenAI (ChatGPT Images)</option>
+                <option value="gemini" className="bg-white dark:bg-slate-700 text-gray-900 dark:text-white">Google Gemini</option>
               </select>
             </div>
             <button
@@ -202,8 +205,8 @@ export function VisionBoard({ goals }) {
           })}
         </div>
 
-        <div className="mt-6 p-4 bg-primary-50 rounded-lg border border-primary-200">
-          <p className="text-sm text-primary-800">
+        <div className="mt-6 p-4 bg-primary-50 dark:bg-primary-900/30 rounded-lg border border-primary-200 dark:border-primary-700">
+          <p className="text-sm text-primary-800 dark:text-primary-200">
             <strong>💡 Tip:</strong> Your vision board represents all your goals. Visualize yourself achieving them daily to stay motivated!
           </p>
         </div>
@@ -211,22 +214,22 @@ export function VisionBoard({ goals }) {
 
       {/* Inspiration Section */}
       <div className="glass-effect p-6 rounded-2xl">
-        <h3 className="text-xl font-bold text-gray-800 mb-4">Vision Board Tips</h3>
+        <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4">Vision Board Tips</h3>
         <ul className="space-y-2 text-gray-700 dark:text-gray-200">
           <li className="flex items-start space-x-2">
-            <span className="text-primary-600">✓</span>
+            <span className="text-primary-600 dark:text-primary-400">✓</span>
             <span>Review your vision board every morning</span>
           </li>
           <li className="flex items-start space-x-2">
-            <span className="text-primary-600">✓</span>
+            <span className="text-primary-600 dark:text-primary-400">✓</span>
             <span>Visualize achieving each goal in detail</span>
           </li>
           <li className="flex items-start space-x-2">
-            <span className="text-primary-600">✓</span>
+            <span className="text-primary-600 dark:text-primary-400">✓</span>
             <span>Update your board as you progress</span>
           </li>
           <li className="flex items-start space-x-2">
-            <span className="text-primary-600">✓</span>
+            <span className="text-primary-600 dark:text-primary-400">✓</span>
             <span>Share your vision with supportive people</span>
           </li>
         </ul>
