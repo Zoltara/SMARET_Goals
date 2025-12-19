@@ -47,9 +47,9 @@ export function GoalCard({ goal, onUpdate, onDelete }) {
     <div className="glass-effect p-5 rounded-xl hover:shadow-xl transition-all">
       <div className="flex items-start justify-between mb-3">
         <div className="flex-1">
-          <h3 className="font-bold text-lg text-gray-800 mb-1">{goal.title}</h3>
-          <p className="text-sm text-gray-600 mb-2">{goal.measurement}</p>
-          <div className="flex items-center space-x-2 text-xs text-gray-500">
+          <h3 className="font-bold text-lg text-gray-800 dark:text-gray-100 mb-1">{goal.title}</h3>
+          <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">{goal.measurement}</p>
+          <div className="flex items-center space-x-2 text-xs text-gray-500 dark:text-gray-400">
             <Calendar className="w-4 h-4" />
             <span>Target: {goal.targetDate ? format(new Date(goal.targetDate), 'MMM dd, yyyy') : 'Not set'}</span>
           </div>
@@ -69,7 +69,7 @@ export function GoalCard({ goal, onUpdate, onDelete }) {
       {/* Progress Bar */}
       <div className="mb-4">
         <div className="flex items-center justify-between text-sm mb-2">
-          <span className="font-medium text-gray-700">Progress</span>
+          <span className="font-medium text-gray-700 dark:text-gray-200">Progress</span>
           <span className="font-bold text-primary-600">{progress}%</span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
@@ -78,7 +78,7 @@ export function GoalCard({ goal, onUpdate, onDelete }) {
             style={{ width: `${progress}%` }}
           />
         </div>
-        <div className="flex items-center justify-between text-xs text-gray-500 mt-1">
+        <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
           <span>Time: {timeProgress}%</span>
           <span>{goal.completedActions} actions completed</span>
         </div>
@@ -101,7 +101,7 @@ export function GoalCard({ goal, onUpdate, onDelete }) {
           {/* Daily Actions */}
           {goal.breakdown.daily && goal.breakdown.daily.length > 0 && (
             <div>
-              <h4 className="font-semibold text-sm text-gray-700 mb-2 flex items-center">
+              <h4 className="font-semibold text-sm text-gray-700 dark:text-gray-200 mb-2 flex items-center">
                 <Target className="w-4 h-4 mr-1" />
                 Daily Actions
               </h4>
@@ -118,11 +118,11 @@ export function GoalCard({ goal, onUpdate, onDelete }) {
                       className="mt-1 w-4 h-4 text-primary-600 rounded focus:ring-primary-500"
                     />
                     <div className="flex-1">
-                      <span className={`text-sm ${action.completed ? 'line-through text-gray-400' : 'text-gray-700'}`}>
+                      <span className={`text-sm ${action.completed ? 'line-through text-gray-400 dark:text-gray-500' : 'text-gray-700 dark:text-gray-200'}`}>
                         {action.action || action}
                       </span>
                       {action.date && (
-                        <span className="text-xs text-gray-500 ml-2">
+                        <span className="text-xs text-gray-500 dark:text-gray-400 ml-2">
                           {format(new Date(action.date), 'MMM dd')}
                         </span>
                       )}
@@ -150,7 +150,7 @@ export function GoalCard({ goal, onUpdate, onDelete }) {
                       className="mt-1 w-4 h-4 text-primary-600 rounded focus:ring-primary-500"
                     />
                     <div className="flex-1">
-                      <span className={`text-sm ${milestone.completed ? 'line-through text-gray-400' : 'text-gray-700'}`}>
+                      <span className={`text-sm ${milestone.completed ? 'line-through text-gray-400 dark:text-gray-500' : 'text-gray-700 dark:text-gray-200'}`}>
                         Week {milestone.week}: {milestone.milestone}
                       </span>
                     </div>
@@ -177,7 +177,7 @@ export function GoalCard({ goal, onUpdate, onDelete }) {
                       className="mt-1 w-4 h-4 text-primary-600 rounded focus:ring-primary-500"
                     />
                     <div className="flex-1">
-                      <span className={`text-sm ${checkpoint.completed ? 'line-through text-gray-400' : 'text-gray-700'}`}>
+                      <span className={`text-sm ${checkpoint.completed ? 'line-through text-gray-400 dark:text-gray-500' : 'text-gray-700 dark:text-gray-200'}`}>
                         Month {checkpoint.month}: {checkpoint.checkpoint}
                       </span>
                     </div>

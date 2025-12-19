@@ -60,9 +60,9 @@ export function ProgressDashboard({ goals }) {
   if (goals.length === 0) {
     return (
       <div className="glass-effect p-12 rounded-2xl text-center">
-        <TrendingUp className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-        <h3 className="text-xl font-semibold text-gray-600 mb-2">No Progress Data</h3>
-        <p className="text-gray-500">Create goals and track your progress here!</p>
+        <TrendingUp className="w-16 h-16 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+        <h3 className="text-xl font-semibold text-gray-600 dark:text-gray-300 mb-2">No Progress Data</h3>
+        <p className="text-gray-500 dark:text-gray-400">Create goals and track your progress here!</p>
       </div>
     )
   }
@@ -76,7 +76,7 @@ export function ProgressDashboard({ goals }) {
             <Target className="w-8 h-8 text-primary-500" />
             <span className="text-2xl font-bold text-primary-600">{stats.totalGoals}</span>
           </div>
-          <p className="text-sm text-gray-600">Total Goals</p>
+          <p className="text-sm text-gray-600 dark:text-gray-300">Total Goals</p>
         </div>
 
         <div className="glass-effect p-5 rounded-xl">
@@ -108,7 +108,7 @@ export function ProgressDashboard({ goals }) {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Goal Progress Bar Chart */}
         <div className="glass-effect p-6 rounded-2xl">
-          <h3 className="text-lg font-bold text-gray-800 mb-4">Goal Progress</h3>
+          <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4">Goal Progress</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -159,8 +159,8 @@ export function ProgressDashboard({ goals }) {
               <div key={goal.id} className="border border-gray-200 rounded-lg p-4">
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex-1">
-                    <h4 className="font-semibold text-gray-800 mb-1">{goal.title}</h4>
-                    <p className="text-sm text-gray-600">{goal.measurement}</p>
+                    <h4 className="font-semibold text-gray-800 dark:text-gray-100 mb-1">{goal.title}</h4>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">{goal.measurement}</p>
                   </div>
                   <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
                     feedback.type === 'excellent' || feedback.type === 'great' ? 'bg-green-100 text-green-800' :
@@ -172,7 +172,7 @@ export function ProgressDashboard({ goals }) {
                 </div>
 
                 <div className="mb-3">
-                  <div className="flex items-center justify-between text-xs text-gray-600 mb-1">
+                  <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-300 mb-1">
                     <span>Progress: {progress}%</span>
                     <span>Time: {timeProgress}%</span>
                   </div>

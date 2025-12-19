@@ -17,9 +17,9 @@ export function GoalList({ goals, onGoalUpdate, onGoalDelete }) {
   if (goals.length === 0) {
     return (
       <div className="glass-effect p-12 rounded-2xl text-center">
-        <Target className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-        <h3 className="text-xl font-semibold text-gray-600 mb-2">No Goals Yet</h3>
-        <p className="text-gray-500">Create your first SMART goal to get started!</p>
+        <Target className="w-16 h-16 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+        <h3 className="text-xl font-semibold text-gray-600 dark:text-gray-300 mb-2">No Goals Yet</h3>
+        <p className="text-gray-500 dark:text-gray-400">Create your first SMART goal to get started!</p>
       </div>
     )
   }
@@ -27,7 +27,7 @@ export function GoalList({ goals, onGoalUpdate, onGoalDelete }) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-bold text-gray-800">Your Goals</h2>
+        <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100">Your Goals</h2>
         <div className="flex items-center space-x-2">
           <Filter className="w-4 h-4 text-gray-500" />
           <select

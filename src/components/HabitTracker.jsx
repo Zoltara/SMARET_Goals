@@ -20,9 +20,9 @@ export function HabitTracker({ habits, goals, onHabitUpdate }) {
   if (habits.length === 0) {
     return (
       <div className="glass-effect p-12 rounded-2xl text-center">
-        <Flame className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-        <h3 className="text-xl font-semibold text-gray-600 mb-2">No Habits Yet</h3>
-        <p className="text-gray-500">Habits are automatically created when you add goals!</p>
+        <Flame className="w-16 h-16 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+        <h3 className="text-xl font-semibold text-gray-600 dark:text-gray-300 mb-2">No Habits Yet</h3>
+        <p className="text-gray-500 dark:text-gray-400">Habits are automatically created when you add goals!</p>
       </div>
     )
   }
@@ -32,7 +32,7 @@ export function HabitTracker({ habits, goals, onHabitUpdate }) {
       {/* Header */}
       <div className="glass-effect p-6 rounded-2xl">
         <h2 className="text-2xl font-bold gradient-text mb-4">Habit Tracker</h2>
-        <p className="text-gray-600 mb-4">Build consistency with Atomic Habits principles</p>
+        <p className="text-gray-600 dark:text-gray-300 mb-4">Build consistency with Atomic Habits principles</p>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-primary-50 p-4 rounded-lg border border-primary-200">
@@ -78,22 +78,22 @@ export function HabitTracker({ habits, goals, onHabitUpdate }) {
             <div key={habit.id} className="glass-effect p-6 rounded-xl">
               <div className="flex items-start justify-between mb-4">
                 <div className="flex-1">
-                  <h3 className="font-bold text-lg text-gray-800 mb-1">{habit.name}</h3>
-                  <p className="text-sm text-gray-600 mb-2">Goal: {goalName}</p>
+                  <h3 className="font-bold text-lg text-gray-800 dark:text-gray-100 mb-1">{habit.name}</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-2">Goal: {goalName}</p>
                   
                   {/* Habit Stack */}
                   <div className="space-y-2 mt-3">
                     <div className="text-xs">
-                      <span className="font-semibold text-gray-700">Cue:</span>
-                      <span className="text-gray-600 ml-2">{habit.cue}</span>
+                      <span className="font-semibold text-gray-700 dark:text-gray-200">Cue:</span>
+                      <span className="text-gray-600 dark:text-gray-300 ml-2">{habit.cue}</span>
                     </div>
                     <div className="text-xs">
-                      <span className="font-semibold text-gray-700">Response:</span>
-                      <span className="text-gray-600 ml-2">{habit.response}</span>
+                      <span className="font-semibold text-gray-700 dark:text-gray-200">Response:</span>
+                      <span className="text-gray-600 dark:text-gray-300 ml-2">{habit.response}</span>
                     </div>
                     <div className="text-xs">
-                      <span className="font-semibold text-gray-700">Reward:</span>
-                      <span className="text-gray-600 ml-2">{habit.reward}</span>
+                      <span className="font-semibold text-gray-700 dark:text-gray-200">Reward:</span>
+                      <span className="text-gray-600 dark:text-gray-300 ml-2">{habit.reward}</span>
                     </div>
                   </div>
                 </div>
@@ -119,11 +119,11 @@ export function HabitTracker({ habits, goals, onHabitUpdate }) {
                 <div className="flex items-center space-x-4">
                   <div className="flex items-center space-x-2">
                     <Flame className={`w-5 h-5 ${habit.streak > 0 ? 'text-orange-500' : 'text-gray-400'}`} />
-                    <span className="font-semibold text-gray-700">
+                    <span className="font-semibold text-gray-700 dark:text-gray-200">
                       {habit.streak} day streak
                     </span>
                     {habit.bestStreak > habit.streak && (
-                      <span className="text-xs text-gray-500">
+                      <span className="text-xs text-gray-500 dark:text-gray-400">
                         (Best: {habit.bestStreak})
                       </span>
                     )}
@@ -131,7 +131,7 @@ export function HabitTracker({ habits, goals, onHabitUpdate }) {
                 </div>
 
                 <div className="flex items-center space-x-2">
-                  <span className="text-sm text-gray-600">Habit Strength:</span>
+                  <span className="text-sm text-gray-600 dark:text-gray-300">Habit Strength:</span>
                   <div className="flex items-center space-x-1">
                     <div className="w-24 bg-gray-200 rounded-full h-2">
                       <div
@@ -175,7 +175,7 @@ export function HabitTracker({ habits, goals, onHabitUpdate }) {
 
       {/* Atomic Habits Principles */}
       <div className="glass-effect p-6 rounded-2xl">
-        <h3 className="text-lg font-bold text-gray-800 mb-4">Atomic Habits Principles</h3>
+        <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100 mb-4">Atomic Habits Principles</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="p-4 bg-primary-50 rounded-lg border border-primary-200">
             <h4 className="font-semibold text-primary-800 mb-2">1. Make it Obvious</h4>

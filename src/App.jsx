@@ -104,7 +104,7 @@ function App() {
                 ) : (
                   <>
                     <Sun className="w-4 h-4 text-yellow-500" />
-                    <span className="text-gray-700">Light</span>
+                    <span className="text-gray-700 dark:text-gray-200">Light</span>
                   </>
                 )}
               </button>
@@ -135,7 +135,7 @@ function App() {
             className={`px-4 py-2 font-medium text-sm rounded-t-lg transition-colors ${
               activeTab === 'goals'
                 ? 'bg-primary-500 text-white'
-                : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
+                : 'text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20'
             }`}
           >
             <Target className="w-4 h-4 inline mr-2" />
@@ -146,7 +146,7 @@ function App() {
             className={`px-4 py-2 font-medium text-sm rounded-t-lg transition-colors ${
               activeTab === 'progress'
                 ? 'bg-primary-500 text-white'
-                : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
+                : 'text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20'
             }`}
           >
             <TrendingUp className="w-4 h-4 inline mr-2" />
@@ -157,7 +157,7 @@ function App() {
             className={`px-4 py-2 font-medium text-sm rounded-t-lg transition-colors ${
               activeTab === 'habits'
                 ? 'bg-primary-500 text-white'
-                : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
+                : 'text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20'
             }`}
           >
             <Calendar className="w-4 h-4 inline mr-2" />
@@ -168,7 +168,7 @@ function App() {
             className={`px-4 py-2 font-medium text-sm rounded-t-lg transition-colors ${
               activeTab === 'vision'
                 ? 'bg-primary-500 text-white'
-                : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
+                : 'text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20'
             }`}
           >
             <Sparkles className="w-4 h-4 inline mr-2" />

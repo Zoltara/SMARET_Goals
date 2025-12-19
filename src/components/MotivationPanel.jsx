@@ -34,10 +34,10 @@ export function MotivationPanel() {
                 <RefreshCw className="w-4 h-4 text-primary-600" />
               </button>
             </div>
-            <blockquote className="text-lg font-medium text-gray-800 mb-3">
+            <blockquote className="text-lg font-medium text-gray-800 dark:text-gray-100 mb-3">
               "{quote.text}"
             </blockquote>
-            <p className="text-sm text-gray-600 font-semibold">— {quote.author}</p>
+            <p className="text-sm text-gray-600 dark:text-gray-300 font-semibold">— {quote.author}</p>
           </div>
         </div>
       )}
@@ -48,7 +48,7 @@ export function MotivationPanel() {
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center space-x-2">
               <BookOpen className="w-5 h-5 text-primary-500" />
-              <h3 className="text-lg font-bold text-gray-800">Success Story</h3>
+              <h3 className="text-lg font-bold text-gray-800 dark:text-gray-100">Success Story</h3>
             </div>
             <button
               onClick={() => setShowStory(!showStory)}
@@ -60,8 +60,8 @@ export function MotivationPanel() {
 
           {showStory && (
             <div className="space-y-3">
-              <h4 className="font-semibold text-gray-800 text-lg">{story.title}</h4>
-              <p className="text-gray-700 leading-relaxed">{story.content}</p>
+              <h4 className="font-semibold text-gray-800 dark:text-gray-100 text-lg">{story.title}</h4>
+              <p className="text-gray-700 dark:text-gray-200 leading-relaxed">{story.content}</p>
               <div className="p-3 bg-primary-50 rounded-lg border-l-4 border-primary-500">
                 <p className="text-sm font-semibold text-primary-800">
                   💡 Lesson: {story.lesson}
@@ -71,7 +71,7 @@ export function MotivationPanel() {
           )}
 
           {!showStory && (
-            <p className="text-gray-600 text-sm">
+            <p className="text-gray-600 dark:text-gray-300 text-sm">
               Click "Read Story" to get inspired by real success stories!
             </p>
           )}
